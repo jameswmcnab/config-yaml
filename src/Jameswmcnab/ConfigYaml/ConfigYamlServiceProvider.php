@@ -1,0 +1,95 @@
+<?php namespace Jameswmcnab\ConfigYaml;
+
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\ServiceProvider;
+
+class ConfigYamlServiceProvider extends ServiceProvider {
+
+	/**
+	 * Indicates if loading of the provider is deferred.
+	 *
+	 * @var bool
+	 */
+	protected $defer = false;
+
+    /**
+     * Bootstrap the application events.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->package('jameswmcnab/config-yaml');
+    }
+
+	/**
+	 * Register the service provider.
+	 *
+	 * @return void
+	 */
+	public function register()
+	{
+        // Register default Loader
+        $this->registerDefaultLoader();
+
+        // Register default Repository
+        $this->registerDefaultRepository();
+
+        // Register facade accessor
+        $this->app['config-yaml'] = $this->app->share(function(Application $app)
+        {
+            return $app->make('Jameswmcnab\ConfigYaml\RepositoryInterface');
+        });
+
+        // Add facade alias
+        $this->app->booting(function()
+        {
+            $loader = AliasLoader::getInstance();
+            $loader->alias('ConfigYaml', 'Jameswmcnab\ConfigYaml\Facades\ConfigYaml');
+        });
+	}
+
+	/**
+	 * Get the services provided by the provider.
+	 *
+	 * @return array
+	 */
+	public function provides()
+	{
+		return array('config-yaml');
+	}
+
+    /**
+     * Register default Loader
+     *
+     * @return void
+     */
+    protected function registerDefaultLoader()
+    {
+        $this->app->bindShared('Jameswmcnab\ConfigYaml\LoaderInterface', function(Application $app)
+        {
+            $defaultPath = $app['config']['config-yaml::yaml_path'];
+
+            return new YamlFileLoader(
+                $app['files'],
+                new Parser(new \Symfony\Component\Yaml\Parser),
+                $defaultPath
+            );
+        });
+    }
+
+    /**
+     * Register default Repository
+     *
+     * @return void
+     */
+    protected function registerDefaultRepository()
+    {
+        $this->app->bindShared('Jameswmcnab\ConfigYaml\RepositoryInterface', function(Application $app)
+        {
+            return new Repository($app->make('Jameswmcnab\ConfigYaml\LoaderInterface'));
+        });
+    }
+
+}
