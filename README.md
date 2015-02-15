@@ -25,6 +25,7 @@ Publish the package config using Artisan (If you want to change the default YAML
 
 ~~~bash
 php artisan config:publish jameswmcnab/config-yaml
+~~~
 
 ## Usage
 
