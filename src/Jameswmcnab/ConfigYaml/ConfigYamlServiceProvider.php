@@ -20,7 +20,8 @@ class ConfigYamlServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        $this->package('jameswmcnab/config-yaml');
+        $configPath = __DIR__.'/../../config/config-yaml.php';
+        $this->publishes([$configPath => config_path('config-yaml.php')], 'config');
     }
 
 	/**
@@ -67,9 +68,12 @@ class ConfigYamlServiceProvider extends ServiceProvider {
      */
     protected function registerDefaultLoader()
     {
+        $configPath = __DIR__.'/../../config/config-yaml.php';
+        $this->mergeConfigFrom($configPath, 'config-yaml');
+
         $this->app->bindShared('Jameswmcnab\ConfigYaml\LoaderInterface', function(Application $app)
         {
-            $defaultPath = $app['config']['config-yaml::yaml_path'];
+            $defaultPath = $app['config']['config-yaml.yaml_path'];
 
             return new YamlFileLoader(
                 $app['files'],
