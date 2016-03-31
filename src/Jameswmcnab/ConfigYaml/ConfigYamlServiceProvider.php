@@ -71,7 +71,7 @@ class ConfigYamlServiceProvider extends ServiceProvider {
         $configPath = __DIR__.'/../../config/config-yaml.php';
         $this->mergeConfigFrom($configPath, 'config-yaml');
 
-        $this->app->bindShared('Jameswmcnab\ConfigYaml\LoaderInterface', function(Application $app)
+        $this->app->singleton('Jameswmcnab\ConfigYaml\LoaderInterface', function(Application $app)
         {
             $defaultPath = $app['config']['config-yaml.yaml_path'];
 
@@ -90,7 +90,7 @@ class ConfigYamlServiceProvider extends ServiceProvider {
      */
     protected function registerDefaultRepository()
     {
-        $this->app->bindShared('Jameswmcnab\ConfigYaml\RepositoryInterface', function(Application $app)
+        $this->app->singleton('Jameswmcnab\ConfigYaml\RepositoryInterface', function(Application $app)
         {
             return new Repository($app->make('Jameswmcnab\ConfigYaml\LoaderInterface'));
         });
