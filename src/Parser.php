@@ -1,22 +1,24 @@
-<?php namespace Jameswmcnab\ConfigYaml;
+<?php
+
+namespace Jameswmcnab\ConfigYaml;
 
 use Symfony\Component\Yaml\Parser as SymfonyParser;
 use Symfony\Component\Yaml\Exception\ParseException;
 
-class Parser {
-
+class Parser
+{
     /**
-     * @type \Symfony\Component\Yaml\Parser
+     * @var \Symfony\Component\Yaml\Parser
      */
     protected $symfonyParser;
 
     /**
-     * @type \Symfony\Component\Yaml\Exception\ParseException
+     * @var \Symfony\Component\Yaml\Exception\ParseException
      */
     protected $lastParseException;
 
     /**
-     * @param  SymfonyParser  $symfonyParser
+     * @param SymfonyParser $symfonyParser
      */
     public function __construct(SymfonyParser $symfonyParser)
     {
@@ -24,23 +26,21 @@ class Parser {
     }
 
     /**
-     * Parse a string of YAML and return the
+     * Parse a string of YAML and return the.
      *
-     * @param  string  $string
+     * @param string $string
+     *
      * @return string
+     *
      * @throws \Symfony\Component\Yaml\Exception\ParseException
      */
     public function parseString($string)
     {
-        try
-        {
+        try {
             return $this->symfonyParser->parse($string);
-        }
-        catch (ParseException $e)
-        {
+        } catch (ParseException $e) {
             $this->lastParseException = $e;
             throw $e;
         }
     }
-
 }

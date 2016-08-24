@@ -1,22 +1,23 @@
-<?php namespace Jameswmcnab\ConfigYaml; 
+<?php
+
+namespace Jameswmcnab\ConfigYaml;
 
 use Illuminate\Support\NamespacedItemResolver;
 
 class Repository extends NamespacedItemResolver implements RepositoryInterface
 {
-
     /**
-     * @type array
+     * @var array
      */
     protected $items = array();
 
     /**
-     * @type \Jameswmcnab\ConfigYaml\LoaderInterface
+     * @var \Jameswmcnab\ConfigYaml\LoaderInterface
      */
     protected $loader;
 
     /**
-     * @param  \Jameswmcnab\ConfigYaml\LoaderInterface  $loader
+     * @param \Jameswmcnab\ConfigYaml\LoaderInterface $loader
      */
     public function __construct(LoaderInterface $loader)
     {
@@ -26,7 +27,8 @@ class Repository extends NamespacedItemResolver implements RepositoryInterface
     /**
      * Determine if the given configuration value exists.
      *
-     * @param  string  $key
+     * @param string $key
+     *
      * @return bool
      */
     public function has($key)
@@ -39,7 +41,8 @@ class Repository extends NamespacedItemResolver implements RepositoryInterface
     /**
      * Determine if a configuration group exists.
      *
-     * @param  string  $key
+     * @param string $key
+     *
      * @return bool
      */
     public function hasGroup($key)
@@ -52,8 +55,9 @@ class Repository extends NamespacedItemResolver implements RepositoryInterface
     /**
      * Get a single item or group of items by key.
      *
-     * @param  string $key
-     * @param  mixed  $default
+     * @param string $key
+     * @param mixed  $default
+     *
      * @return string|array
      */
     public function get($key, $default = null)
@@ -73,18 +77,16 @@ class Repository extends NamespacedItemResolver implements RepositoryInterface
     /**
      * Load the configuration group for the key.
      *
-     * @param  string  $group
-     * @param  string  $namespace
-     * @param  string  $collection
-     * @return void
+     * @param string $group
+     * @param string $namespace
+     * @param string $collection
      */
     protected function load($group, $namespace, $collection)
     {
         // If we've already loaded this collection, we will just bail out since we do
         // not want to load it again. Once items are loaded a first time they will
         // stay kept in memory within this class and not loaded from disk again.
-        if (isset($this->items[$collection]))
-        {
+        if (isset($this->items[$collection])) {
             return;
         }
 
@@ -96,8 +98,9 @@ class Repository extends NamespacedItemResolver implements RepositoryInterface
     /**
      * Get the collection identifier.
      *
-     * @param  string  $group
-     * @param  string  $namespace
+     * @param string $group
+     * @param string $namespace
+     *
      * @return string
      */
     protected function getCollection($group, $namespace = null)
@@ -110,9 +113,8 @@ class Repository extends NamespacedItemResolver implements RepositoryInterface
     /**
      * Add a new namespace to the loader.
      *
-     * @param  string  $namespace
-     * @param  string  $hint
-     * @return void
+     * @param string $namespace
+     * @param string $hint
      */
     public function addNamespace($namespace, $hint)
     {
@@ -143,12 +145,10 @@ class Repository extends NamespacedItemResolver implements RepositoryInterface
     /**
      * Set the loader implementation.
      *
-     * @param  \Jameswmcnab\ConfigYaml\LoaderInterface  $loader
-     * @return void
+     * @param \Jameswmcnab\ConfigYaml\LoaderInterface $loader
      */
     public function setLoader(LoaderInterface $loader)
     {
         $this->loader = $loader;
     }
-
 }

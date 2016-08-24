@@ -1,6 +1,6 @@
 {
     "name": "jameswmcnab/config-yaml",
-    "description": "A simple YAML config file loader for Laravel, taking inspiration from Illuminate/Config.",
+    "description": "A simple YAML config file loader for Laravel, taking inspiration from illuminate/config.",
     "license": "MIT",
     "authors": [
         {
@@ -11,19 +11,24 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "illuminate/support": "~5.0",
-        "illuminate/filesystem": "~5.0",
-        "symfony/yaml": "3.0.*"
+        "illuminate/contracts": "^5.0",
+        "illuminate/support": "^5.0",
+        "illuminate/filesystem": "^5.0",
+        "symfony/yaml": "^3.0"
     },
     "require-dev": {
+        "laravel/laravel": "~5.0",
         "phpspec/phpspec": "~2.0"
     },
+    "suggest": {
+        "illuminate/cache": "Allows caching of your YAML config values via the CachingRepository."
+    }
     "config": {
         "bin-dir": "vendor/bin"
     },
     "autoload": {
-        "psr-0": {
-            "Jameswmcnab\\ConfigYaml": "src/"
+        "psr-4": {
+            "Jameswmcnab\\ConfigYaml\\": "src/"
         }
     },
     "minimum-stability": "stable"
