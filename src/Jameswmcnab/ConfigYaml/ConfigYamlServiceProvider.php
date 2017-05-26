@@ -38,7 +38,7 @@ class ConfigYamlServiceProvider extends ServiceProvider {
         $this->registerDefaultRepository();
 
         // Register facade accessor
-        $this->app['config-yaml'] = $this->app->share(function(Application $app)
+        $this->app->singleton('config-yaml', function(Application $app)
         {
             return $app->make('Jameswmcnab\ConfigYaml\RepositoryInterface');
         });
