@@ -11,25 +11,31 @@
     ],
     "require": {
 	"php": ">=5.6.4",
-        "illuminate/contracts": "^5.0",
-        "illuminate/support": "^5.0",
-        "illuminate/filesystem": "^5.0",
+        "illuminate/contracts": "5.4.*",
+        "illuminate/support": "5.4.*",
+        "illuminate/filesystem": "5.4.*",
         "symfony/yaml": "^3.0"
     },
     "require-dev": {
-        "laravel/laravel": "~5.0",
+        "laravel/laravel": "5.4.*",
         "phpspec/phpspec": "~2.0"
-    },
-    "suggest": {
-        "illuminate/cache": "Allows caching of your YAML config values via the CachingRepository."
-    },
-    "config": {
-        "bin-dir": "vendor/bin"
     },
     "autoload": {
         "psr-4": {
             "Jameswmcnab\\ConfigYaml\\": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "3.x-dev"
+        }
+    },
+    "suggest": {
+        "illuminate/cache": "Allows caching of your YAML config values via the CachingRepository."
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    }
 }
