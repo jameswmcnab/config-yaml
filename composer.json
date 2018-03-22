@@ -25,6 +25,11 @@
             "Jameswmcnab\\ConfigYaml\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Jameswmcnab\\ConfigYaml\\Tests\\": "tests/"
+        }
+    },
     "extra": {
         "branch-alias": {
             "dev-develop": "3.x-dev"
