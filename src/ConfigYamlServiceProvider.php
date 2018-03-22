@@ -17,7 +17,7 @@ class ConfigYamlServiceProvider extends ServiceProvider
     {
         // Merge default configuration
         $this->mergeConfigFrom(
-            __DIR__.'../config/config-yaml.php', 'config-yaml'
+            __DIR__ . '/../config/config-yaml.php', 'config-yaml'
         );
 
         // Register default Loader
@@ -27,9 +27,7 @@ class ConfigYamlServiceProvider extends ServiceProvider
         $this->registerDefaultRepository();
 
         // Register facade accessor
-        $this->app->singleton('config-yaml', function (Application $app) {
-            return $app->make(RepositoryInterface::class);
-        });
+        $this->app->alias(RepositoryInterface::class, 'config-yaml');
     }
 
     /**

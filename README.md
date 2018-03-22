@@ -13,32 +13,19 @@ By default the package assumes your YAML files are in the `base_path()` director
 this by publishing the package config file (`config-yaml.php`) to your application and changing the `yaml_path` key.
 
 ## Installation
-Require this package in your `composer.json` file:
 
-``` json
-"jameswmcnab/config-yaml": "^2.0",
-```
+Installation is via Composer:
 
-Then add the package service provider your `providers` array in your `app.php`:
-
-``` php
-Jameswmcnab\ConfigYaml\ConfigYamlServiceProvider::class,
-````
-
-#### Register facade alias (optional)
-
-If you wish to use the `ConfigYaml` facade then register the alias in the `aliases` array in your `app.php`:
-
-``` php
-'ConfigYaml' => Jameswmcnab\ConfigYaml\Facades\ConfigYaml::class,
+```bash
+$ composer require jameswmcnab/config-yaml
 ```
 
 #### Publish package config (optional)
 
 If you want to customise the package config, publish the package config then edit the newly created `config/config-yaml.php` file:
 
-``` bash
-php artisan vendor:publish --provider=ConfigYamlServiceProvider
+```bash
+$ php artisan vendor:publish --provider=ConfigYamlServiceProvider
 ```
 
 ## Usage
@@ -111,8 +98,9 @@ class FooBar
 
 ## Running Tests
 
-This package has a few unit tests (although no as many as I would like). Run this via phpspec:
+To run the package tests:
 
 ``` bash
-vendor/bin/phpspec run
+$ vendor/bin/phpspec run
+$ vendor/bin/phpunit
 ```

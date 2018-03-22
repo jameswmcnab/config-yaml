@@ -71,8 +71,8 @@ class CachingRepository implements RepositoryInterface
      */
     public function get($key, $default = null)
     {
-        return $this->cache->remember($key, $this->cacheAgeMinutes, function (Repository $repository) use ($key, $default) {
-           return $repository->get($key, $default);
+        return $this->cache->remember($key, $this->cacheAgeMinutes, function () use ($key, $default) {
+           return $this->repository->get($key, $default);
         });
     }
 
