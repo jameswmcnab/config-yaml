@@ -2,7 +2,7 @@
 
 namespace Jameswmcnab\ConfigYaml;
 
-use Illuminate\Cache\Repository as Cache;
+use Illuminate\Contracts\Cache\Repository as Cache;
 
 class CachingRepository implements RepositoryInterface
 {
@@ -16,20 +16,20 @@ class CachingRepository implements RepositoryInterface
     /**
      * The repository instance.
      *
-     * @var \Jameswmcnab\ConfigYaml\RepositoryInterface
+     * @var RepositoryInterface
      */
     protected $repository;
 
     /**
      * The cache repository instance.
      *
-     * @var \Illuminate\Cache\Repository
+     * @var Cache
      */
     protected $cache;
 
     /**
-     * @param Repository                   $repository
-     * @param \Illuminate\Cache\Repository $cache
+     * @param Repository $repository
+     * @param Cache $cache
      */
     public function __construct(Repository $repository, Cache $cache)
     {
@@ -101,7 +101,7 @@ class CachingRepository implements RepositoryInterface
     /**
      * Get the loader implementation.
      *
-     * @return \Jameswmcnab\ConfigYaml\LoaderInterface
+     * @return LoaderInterface
      */
     public function getLoader()
     {
@@ -111,7 +111,7 @@ class CachingRepository implements RepositoryInterface
     /**
      * Set the loader implementation.
      *
-     * @param \Jameswmcnab\ConfigYaml\LoaderInterface $loader
+     * @param LoaderInterface $loader
      */
     public function setLoader(LoaderInterface $loader)
     {
