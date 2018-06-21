@@ -1,27 +1,29 @@
-<?php namespace Jameswmcnab\ConfigYaml;
+<?php
+
+namespace Jameswmcnab\ConfigYaml;
 
 use Illuminate\Filesystem\Filesystem;
 
-class YamlFileLoader implements LoaderInterface {
-
+class YamlFileLoader implements LoaderInterface
+{
     /**
      * The Filesystem instance.
      *
-     * @type \Illuminate\Filesystem\Filesystem;
+     * @var \Illuminate\Filesystem\Filesystem;
      */
     protected $files;
 
     /**
      * The default path to the application YAML files.
      *
-     * @type string
+     * @var string
      */
     protected $defaultPath;
 
     /**
      * The YAML Parser instance.
      *
-     * @type \Jameswmcnab\ConfigYaml\Parser
+     * @var \Jameswmcnab\ConfigYaml\Parser
      */
     protected $parser;
 
@@ -30,19 +32,19 @@ class YamlFileLoader implements LoaderInterface {
      *
      * @var array
      */
-	protected $hints = array();
+    protected $hints = array();
 
-	/**
+    /**
      * A cache of whether namespaces and groups exists.
      *
      * @var array
      */
-	protected $exists = array();
+    protected $exists = array();
 
     /**
-     * @param  \Illuminate\Filesystem\Filesystem   $files
-     * @param  \Jameswmcnab\ConfigYaml\Parser      $parser
-     * @param  string      $defaultPath
+     * @param \Illuminate\Filesystem\Filesystem $files
+     * @param \Jameswmcnab\ConfigYaml\Parser    $parser
+     * @param string                            $defaultPath
      */
     public function __construct(Filesystem $files, Parser $parser, $defaultPath)
     {
@@ -54,8 +56,9 @@ class YamlFileLoader implements LoaderInterface {
     /**
      * Load the configuration group for the key.
      *
-     * @param  string  $group
-     * @param  string  $namespace
+     * @param string $group
+     * @param string $namespace
+     *
      * @return string
      */
     public function load($group, $namespace = null)
@@ -67,8 +70,7 @@ class YamlFileLoader implements LoaderInterface {
         // as any environment folders with their specific configuration items.
         $path = $this->getPath($namespace);
 
-        if (is_null($path))
-        {
+        if (is_null($path)) {
             return $string;
         }
 
@@ -77,8 +79,7 @@ class YamlFileLoader implements LoaderInterface {
         // merged on top of the main arrays to make the environments cascade.
         $file = "{$path}/{$group}.yaml";
 
-        if ($this->files->exists($file))
-        {
+        if ($this->files->exists($file)) {
             $string = $this->files->get($file);
         }
 
@@ -89,8 +90,9 @@ class YamlFileLoader implements LoaderInterface {
     /**
      * Determine if the given configuration group exists.
      *
-     * @param  string  $group
-     * @param  string  $namespace
+     * @param string $group
+     * @param string $namespace
+     *
      * @return bool
      */
     public function exists($group, $namespace = null)
@@ -100,8 +102,7 @@ class YamlFileLoader implements LoaderInterface {
         // We'll first check to see if we have determined if this namespace and
         // group combination have been checked before. If they have, we will
         // just return the cached result so we don't have to hit the disk.
-        if (isset($this->exists[$key]))
-        {
+        if (isset($this->exists[$key])) {
             return $this->exists[$key];
         }
 
@@ -110,8 +111,7 @@ class YamlFileLoader implements LoaderInterface {
         // To check if a group exists, we will simply get the path based on the
         // namespace, and then check to see if this files exists within that
         // namespace. False is returned if no path exists for a namespace.
-        if (is_null($path))
-        {
+        if (is_null($path)) {
             return $this->exists[$key] = false;
         }
 
@@ -128,9 +128,8 @@ class YamlFileLoader implements LoaderInterface {
     /**
      * Add a new namespace to the loader.
      *
-     * @param  string  $namespace
-     * @param  string  $hint
-     * @return void
+     * @param string $namespace
+     * @param string $hint
      */
     public function addNamespace($namespace, $hint)
     {
@@ -151,19 +150,16 @@ class YamlFileLoader implements LoaderInterface {
     /**
      * Get the configuration path for a namespace.
      *
-     * @param  string  $namespace
+     * @param string $namespace
+     *
      * @return string
      */
     protected function getPath($namespace)
     {
-        if (is_null($namespace))
-        {
+        if (is_null($namespace)) {
             return $this->defaultPath;
-        }
-        elseif (isset($this->hints[$namespace]))
-        {
+        } elseif (isset($this->hints[$namespace])) {
             return $this->hints[$namespace];
         }
     }
-
 }

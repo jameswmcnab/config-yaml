@@ -1,11 +1,14 @@
-<?php namespace Jameswmcnab\ConfigYaml;
+<?php
 
-interface RepositoryInterface {
+namespace Jameswmcnab\ConfigYaml;
 
+interface RepositoryInterface
+{
     /**
      * Determine if the given configuration value exists.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return bool
      */
     public function has($key);
@@ -13,7 +16,8 @@ interface RepositoryInterface {
     /**
      * Determine if a configuration group exists.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return bool
      */
     public function hasGroup($key);
@@ -21,8 +25,9 @@ interface RepositoryInterface {
     /**
      * Get a single item or group of items by key.
      *
-     * @param  string $key
-     * @param  mixed  $default
+     * @param string $key
+     * @param mixed  $default
+     *
      * @return string|array
      */
     public function get($key, $default = null);
@@ -30,9 +35,8 @@ interface RepositoryInterface {
     /**
      * Add a new namespace to the loader.
      *
-     * @param  string $namespace
-     * @param  string $hint
-     * @return void
+     * @param string $namespace
+     * @param string $hint
      */
     public function addNamespace($namespace, $hint);
 
@@ -54,9 +58,7 @@ interface RepositoryInterface {
     /**
      * Set the loader implementation.
      *
-     * @param  \Jameswmcnab\ConfigYaml\LoaderInterface $loader
-     * @return void
+     * @param \Jameswmcnab\ConfigYaml\LoaderInterface $loader
      */
     public function setLoader(LoaderInterface $loader);
-
 }

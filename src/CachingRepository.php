@@ -1,33 +1,35 @@
-<?php namespace Jameswmcnab\ConfigYaml;
+<?php
 
-use Illuminate\Cache\Repository as Cache;
+namespace Jameswmcnab\ConfigYaml;
 
-class CachingRepository implements RepositoryInterface {
+use Illuminate\Contracts\Cache\Repository as Cache;
 
+class CachingRepository implements RepositoryInterface
+{
     /**
      * The time to cache items in minutes.
      *
-     * @type int
+     * @var int
      */
     protected $cacheAgeMinutes = 60;
 
     /**
      * The repository instance.
      *
-     * @type \Jameswmcnab\ConfigYaml\RepositoryInterface
+     * @var RepositoryInterface
      */
     protected $repository;
 
     /**
      * The cache repository instance.
      *
-     * @type \Illuminate\Cache\Repository
+     * @var Cache
      */
     protected $cache;
 
     /**
-     * @param  Repository                    $repository
-     * @param  \Illuminate\Cache\Repository  $cache
+     * @param Repository $repository
+     * @param Cache $cache
      */
     public function __construct(Repository $repository, Cache $cache)
     {
@@ -38,7 +40,8 @@ class CachingRepository implements RepositoryInterface {
     /**
      * Determine if the given configuration value exists.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return bool
      */
     public function has($key)
@@ -49,7 +52,8 @@ class CachingRepository implements RepositoryInterface {
     /**
      * Determine if a configuration group exists.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return bool
      */
     public function hasGroup($key)
@@ -60,24 +64,23 @@ class CachingRepository implements RepositoryInterface {
     /**
      * Get a single item or group of items by key.
      *
-     * @param  string $key
-     * @param  mixed  $default
+     * @param string $key
+     * @param mixed  $default
+     *
      * @return string|array
      */
     public function get($key, $default = null)
     {
-        return $this->cache->remember($key, $this->cacheAgeMinutes, function(Repository $repository) use ($key, $default)
-        {
-           return $repository->get($key, $default);
+        return $this->cache->remember($key, $this->cacheAgeMinutes, function () use ($key, $default) {
+           return $this->repository->get($key, $default);
         });
     }
 
     /**
      * Add a new namespace to the loader.
      *
-     * @param  string $namespace
-     * @param  string $hint
-     * @return void
+     * @param string $namespace
+     * @param string $hint
      */
     public function addNamespace($namespace, $hint)
     {
@@ -98,7 +101,7 @@ class CachingRepository implements RepositoryInterface {
     /**
      * Get the loader implementation.
      *
-     * @return \Jameswmcnab\ConfigYaml\LoaderInterface
+     * @return LoaderInterface
      */
     public function getLoader()
     {
@@ -108,12 +111,10 @@ class CachingRepository implements RepositoryInterface {
     /**
      * Set the loader implementation.
      *
-     * @param  \Jameswmcnab\ConfigYaml\LoaderInterface $loader
-     * @return void
+     * @param LoaderInterface $loader
      */
     public function setLoader(LoaderInterface $loader)
     {
         $this->repository->setLoader($loader);
     }
-
 }

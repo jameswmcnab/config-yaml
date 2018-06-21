@@ -1,37 +1,38 @@
 # YAML Config Loader for Laravel
-This provides simple YAML config loading to Laravel. It takes a lot of inspiration from the Illuminate/Config package.
-Uses the Symfony YAML component.
+
+[![Build Status](https://travis-ci.org/jameswmcnab/config-yaml.svg?branch=master)](https://travis-ci.org/jameswmcnab/config-yaml)
+
+This provides simple YAML config loading to Laravel. It takes a lot of inspiration from the `illuminate/config` package 
+and uses the Symfony YAML parser.
 
 This is not a replacement for the built-in PHP config file system in Laravel but is intended as an extra 'layer' of 
 configuration. This allows you to have one or more Ruby-like `config.yaml` files containing user-configurable config 
 for your application.
 
-By default the package assumes your YAML files are in the `base_path()` directory.
+By default the package assumes your YAML files are in the `base_path()` directory, but you can customise 
+this by publishing the package config file (`config-yaml.php`) to your application and changing the `yaml_path` key.
 
 ## Installation
-Require this package in your `composer.json` file:
 
-~~~json
-"jameswmcnab/config-yaml": "dev-master"
-~~~
+Installation is via Composer:
 
-And add the ServiceProvider to the `providers` array in `app/config/app.php` file:
+```bash
+$ composer require jameswmcnab/config-yaml
+```
 
-~~~php
-'Jameswmcnab\ConfigYaml\ConfigYamlServiceProvider',
-~~~
+#### Publish package config (optional)
 
-Publish the package config using Artisan (If you want to change the default YAML config file directory).
+If you want to customise the package config, publish the package config then edit the newly created `config/config-yaml.php` file:
 
-~~~bash
-php artisan config:publish jameswmcnab/config-yaml
-~~~
+```bash
+$ php artisan vendor:publish --provider=ConfigYamlServiceProvider
+```
 
 ## Usage
 
-### Get configuration by key:
+Example YAML file:
 
-~~~yaml
+``` yaml
 # Example YAML config.yaml file
 app:
   name: "Great App"
@@ -46,8 +47,60 @@ database:
   database: app_live
   username: user
   password: password
-~~~
+````
 
-~~~php
+#### Using the facade
+
+**Note: Remember to register the facade in your `app.php` config.**
+
+``` php
 ConfigYaml::get('config.database.adapter'); // mysql
-~~~
+```
+
+#### Using dependency injection
+
+If you don't want to use the facade just directly inject `Jameswmcnab\ConfigYaml\RepositoryInterface` wherever dependency 
+injection is supported and use it directly:
+
+``` php
+<?php
+
+namespace App\Foo;
+
+use Jameswmcnab\ConfigYaml\RepositoryInterface;
+
+class FooBar
+{
+    /**
+     * @var RepositoryInterface
+     */
+    private $yamlConfig;
+
+    /**
+     * FooBar constructor.
+     *
+     * @param RepositoryInterface $yamlConfig
+     */
+    public function __construct(RepositoryInterface $yamlConfig)
+    {
+        $this->yamlConfig = $yamlConfig;
+    }
+
+    /**
+     * @return array|string
+     */
+    private function getDatabaseAdapter()
+    {
+        return $this->yamlConfig->get('config.database.adapter');  // mysql
+    }
+}
+```
+
+## Running Tests
+
+To run the package tests:
+
+``` bash
+$ vendor/bin/phpspec run
+$ vendor/bin/phpunit
+```

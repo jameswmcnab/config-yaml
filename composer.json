@@ -1,6 +1,6 @@
 {
     "name": "jameswmcnab/config-yaml",
-    "description": "A simple YAML config file loader for Laravel, taking inspiration from Illuminate/Config.",
+    "description": "A simple YAML config file loader for Laravel, taking inspiration from illuminate/config.",
     "license": "MIT",
     "authors": [
         {
@@ -10,21 +10,45 @@
         }
     ],
     "require": {
-        "php": ">=5.6.4",
-        "illuminate/support": "~5.0",
-        "illuminate/filesystem": "~5.0",
-        "symfony/yaml": "^3.0"
+	    "php": ">=7.0",
+        "illuminate/contracts": "5.5.*|5.6.*",
+        "illuminate/support": "5.5.*|5.6.*",
+        "illuminate/filesystem": "5.5.*|5.6.*",
+        "symfony/yaml": "^3.0|^4.0"
     },
     "require-dev": {
-        "phpspec/phpspec": "~2.0"
-    },
-    "config": {
-        "bin-dir": "vendor/bin"
+        "orchestra/testbench": "3.5.*|3.6.*",
+        "phpspec/phpspec": "^3.0|^4.0"
     },
     "autoload": {
-        "psr-0": {
-            "Jameswmcnab\\ConfigYaml": "src/"
+        "psr-4": {
+            "Jameswmcnab\\ConfigYaml\\": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "autoload-dev": {
+        "psr-4": {
+            "Jameswmcnab\\ConfigYaml\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "3.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "\\Jameswmcnab\\ConfigYaml\\ConfigYamlServiceProvider"
+            ],
+            "aliases": {
+                "ConfigYaml": "\\Jameswmcnab\\ConfigYaml\\Facades\\ConfigYaml"
+            }
+        }
+    },
+    "suggest": {
+        "illuminate/cache": "Allows caching of your YAML config values via the CachingRepository."
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    }
 }
