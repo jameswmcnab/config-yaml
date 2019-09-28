@@ -1,3 +1,7 @@
+# Abandoned
+
+This package is abandoned and no longer maintained. The author suggests using the pragmarx/yaml package instead.
+
 # YAML Config Loader for Laravel
 
 [![Build Status](https://travis-ci.org/jameswmcnab/config-yaml.svg?branch=master)](https://travis-ci.org/jameswmcnab/config-yaml)
